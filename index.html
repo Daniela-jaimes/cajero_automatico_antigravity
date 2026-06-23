@@ -3,283 +3,433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cajero Automático - Simulación Premium</title>
-    <!-- Google Fonts: Poppins -->
+    <meta name="description" content="Aplicación Web de Cajero Automático (ATM) moderna e interactiva construida con HTML, CSS y JS vanilla.">
+    <title>GigaBank ATM - Banca Digital</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome CDN for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Background dynamic elements for premium feel -->
-    <div class="bg-bubble bg-bubble-1"></div>
-    <div class="bg-bubble bg-bubble-2"></div>
+    <!-- Background glowing gradients -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
 
     <div class="app-container">
-        <!-- 1. LOGIN SCREEN -->
-        <section id="screen-login" class="screen active">
-            <div class="login-card">
+        <!-- ==================== PANTALLA DE LOGIN ==================== -->
+        <main id="login-screen" class="view active">
+            <div class="login-card glass">
                 <div class="brand-header">
-                    <div class="logo-icon">
-                        <i class="fa-solid fa-building-columns"></i>
+                    <div class="brand-logo">
+                        <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                            <line x1="2" y1="20" x2="22" y2="20"></line>
+                            <polyline points="2 10 12 2 22 10"></polyline>
+                        </svg>
                     </div>
-                    <h1>Banco Antigravity</h1>
-                    <p>Banca Segura y Digital</p>
+                    <div class="brand-title">
+                        <h1>Giga<span>Bank</span></h1>
+                        <p>CAJERO AUTOMÁTICO DIGITAL</p>
+                    </div>
                 </div>
 
-                <form id="login-form" onsubmit="event.preventDefault();">
+                <div class="welcome-text">
+                    <h2>Bienvenido de nuevo</h2>
+                    <p>Por favor, ingrese su usuario y PIN de seguridad</p>
+                </div>
+
+                <form id="login-form" autocomplete="off" onsubmit="event.preventDefault();">
                     <div class="input-group">
-                        <label for="login-account"><i class="fa-regular fa-credit-card"></i> Número de Cuenta</label>
-                        <input type="text" id="login-account" placeholder="Ej. 123456789" autocomplete="username" required>
+                        <label for="login-username">Usuario</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            <input type="text" id="login-username" required placeholder="Ej. ana" autocomplete="off">
+                        </div>
                     </div>
 
                     <div class="input-group">
-                        <label for="login-pin"><i class="fa-solid fa-key"></i> PIN / Contraseña</label>
-                        <input type="password" id="login-pin" placeholder="••••" maxlength="6" autocomplete="current-password" required>
-                    </div>
-
-                    <div id="login-error-msg" class="error-banner d-none">
-                        <i class="fa-solid fa-triangle-exclamation"></i> <span>Número de cuenta o contraseña incorrectos.</span>
-                    </div>
-
-                    <button type="submit" id="btn-login" class="btn btn-primary">
-                        Ingresar <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    </button>
-                </form>
-                <div class="login-footer">
-                    <p><i class="fa-solid fa-lock"></i> Conexión encriptada de 256 bits</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- MAIN LAYOUT (Header + Content Screens) - Hidden initially -->
-        <div id="main-layout" class="d-none">
-            <!-- Header Bar -->
-            <header class="app-header">
-                <div class="header-brand">
-                    <i class="fa-solid fa-building-columns"></i>
-                    <span>Banco Antigravity</span>
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <i class="fa-regular fa-user"></i>
-                    </div>
-                    <div class="user-details">
-                        <span class="user-name" id="display-user-name">Hola, Juan Pérez</span>
-                        <span class="account-num" id="display-account-num">Cuenta: 123456789</span>
-                    </div>
-                </div>
-                <button id="btn-logout" class="btn-icon-logout" title="Cerrar Sesión">
-                    <i class="fa-solid fa-power-off"></i> <span>Salir</span>
-                </button>
-            </header>
-
-            <!-- 2. DASHBOARD / MENU PRINCIPAL SCREEN -->
-            <section id="screen-dashboard" class="screen">
-                <div class="welcome-banner">
-                    <h2>¿Qué deseas realizar hoy?</h2>
-                    <p>Selecciona una de las siguientes opciones para operar tu cuenta de forma rápida y segura.</p>
-                </div>
-
-                <div class="options-grid">
-                    <!-- Option Consultar Saldo -->
-                    <div class="option-card" id="opt-balance">
-                        <div class="option-icon">
-                            <i class="fa-solid fa-wallet"></i>
-                        </div>
-                        <h3>Consultar Saldo</h3>
-                        <p>Verifica los fondos disponibles en tu cuenta de ahorros de forma inmediata.</p>
-                        <span class="option-action">Consultar <i class="fa-solid fa-chevron-right"></i></span>
-                    </div>
-
-                    <!-- Option Realizar Transferencia -->
-                    <div class="option-card" id="opt-transfer">
-                        <div class="option-icon">
-                            <i class="fa-solid fa-money-bill-transfer"></i>
-                        </div>
-                        <h3>Realizar Transferencia</h3>
-                        <p>Envía dinero a cuentas del mismo banco de manera inmediata y sin costos.</p>
-                        <span class="option-action">Transferir <i class="fa-solid fa-chevron-right"></i></span>
-                    </div>
-
-                    <!-- Option Historial de Transacciones -->
-                    <div class="option-card" id="opt-history">
-                        <div class="option-icon">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
-                        <h3>Historial de Movimientos</h3>
-                        <p>Revisa el registro detallado de las últimas transferencias enviadas.</p>
-                        <span class="option-action">Ver Historial <i class="fa-solid fa-chevron-right"></i></span>
-                    </div>
-                </div>
-
-                <!-- Last Transfer Info Panel (if any) -->
-                <div id="last-transfer-panel" class="info-card-summary d-none">
-                    <div class="info-summary-icon">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </div>
-                    <div class="info-summary-text">
-                        <h4>Última Transferencia Realizada</h4>
-                        <p id="last-transfer-summary-text">No has realizado transferencias en esta sesión.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. CONSULTAR SALDO SCREEN -->
-            <section id="screen-balance" class="screen">
-                <div class="view-header">
-                    <button class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al menú</button>
-                    <h2>Consulta de Saldo</h2>
-                </div>
-
-                <div class="balance-card">
-                    <div class="balance-card-header">
-                        <span>Saldo Disponible</span>
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <div class="balance-value" id="balance-display">$0</div>
-                    <div class="balance-card-footer">
-                        <div>
-                            <span class="label">Tipo de Cuenta</span>
-                            <span class="val">Ahorros</span>
-                        </div>
-                        <div>
-                            <span class="label">Estado</span>
-                            <span class="val text-success"><i class="fa-solid fa-circle-check"></i> Activa</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="actions-container">
-                    <button class="btn btn-secondary btn-back-menu">
-                        <i class="fa-solid fa-chevron-left"></i> Regresar al Menú
-                    </button>
-                </div>
-            </section>
-
-            <!-- 4. TRANSFERENCIA SCREEN -->
-            <section id="screen-transfer" class="screen">
-                <div class="view-header">
-                    <button class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al menú</button>
-                    <h2>Realizar Transferencia</h2>
-                </div>
-
-                <div class="form-container-card">
-                    <div class="form-card-header">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                        <h3>Datos de la Cuenta Destino</h3>
-                    </div>
-
-                    <form id="transfer-form" onsubmit="event.preventDefault();">
-                        <div class="form-row-grid">
-                            <div class="input-group">
-                                <label for="transfer-account"><i class="fa-regular fa-credit-card"></i> Número de Cuenta Destino</label>
-                                <input type="number" id="transfer-account" placeholder="Ingrese 9 dígitos" required>
-                                <small class="input-help">Solo números sin espacios</small>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="transfer-name"><i class="fa-regular fa-user"></i> Nombre del Destinatario</label>
-                                <input type="text" id="transfer-name" placeholder="Nombre completo" required>
-                            </div>
-                        </div>
-
-                        <div class="input-group val-input-group">
-                            <label for="transfer-amount"><i class="fa-solid fa-dollar-sign"></i> Valor a Transferir</label>
-                            <div class="amount-input-wrapper">
-                                <span class="currency-prefix">$</span>
-                                <input type="number" id="transfer-amount" min="1" step="any" placeholder="0" required>
-                            </div>
-                            <small class="input-help">Saldo disponible: <strong id="transfer-available-balance">$0</strong></small>
-                        </div>
-
-                        <div class="actions-container-form">
-                            <button type="button" class="btn btn-secondary btn-back-menu">Cancelar</button>
-                            <button type="submit" id="btn-pre-transfer" class="btn btn-primary">
-                                Continuar <i class="fa-solid fa-arrow-right"></i>
+                        <label for="login-pin">PIN de Seguridad (4 dígitos)</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="login-pin" maxlength="4" required placeholder="••••" readonly>
+                            <button type="button" id="toggle-pin-btn" class="input-action-btn" aria-label="Mostrar PIN">
+                                <svg id="eye-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
                             </button>
                         </div>
-                    </form>
-                </div>
-            </section>
-
-            <!-- 5. HISTORIAL SCREEN -->
-            <section id="screen-history" class="screen">
-                <div class="view-header">
-                    <button class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al menú</button>
-                    <h2>Historial de Movimientos</h2>
-                </div>
-
-                <div class="history-container-card">
-                    <div class="history-header">
-                        <h3>Últimas 5 Transferencias Realizadas</h3>
-                        <span class="badge" id="history-count">0 transacciones</span>
                     </div>
 
-                    <div class="history-list" id="history-items-list">
-                        <!-- History items will be injected dynamically -->
-                        <div class="empty-history">
-                            <i class="fa-solid fa-receipt"></i>
-                            <p>No se registran transferencias en el historial de esta cuenta.</p>
+                    <!-- Interactive PIN Keyboard -->
+                    <div class="pin-keyboard">
+                        <button type="button" class="pin-btn" data-value="1">1</button>
+                        <button type="button" class="pin-btn" data-value="2">2</button>
+                        <button type="button" class="pin-btn" data-value="3">3</button>
+                        <button type="button" class="pin-btn" data-value="4">4</button>
+                        <button type="button" class="pin-btn" data-value="5">5</button>
+                        <button type="button" class="pin-btn" data-value="6">6</button>
+                        <button type="button" class="pin-btn" data-value="7">7</button>
+                        <button type="button" class="pin-btn" data-value="8">8</button>
+                        <button type="button" class="pin-btn" data-value="9">9</button>
+                        <button type="button" class="pin-btn pin-btn-danger" id="pin-clear" aria-label="Limpiar">C</button>
+                        <button type="button" class="pin-btn" data-value="0">0</button>
+                        <button type="button" class="pin-btn pin-btn-warning" id="pin-backspace" aria-label="Borrar último">⌫</button>
+                    </div>
+
+                    <button type="submit" id="login-submit-btn" class="btn btn-primary full-width">
+                        <span>Ingresar al Sistema</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Accounts Helper Info -->
+                <div class="demo-accounts-info">
+                    <p class="demo-title">Cuentas de demostración:</p>
+                    <div class="demo-grid">
+                        <div class="demo-badge" onclick="fillDemoCredentials('ana', '1234')">
+                            <strong>ana</strong> (1234)
+                        </div>
+                        <div class="demo-badge" onclick="fillDemoCredentials('juan', '4321')">
+                            <strong>juan</strong> (4321)
+                        </div>
+                        <div class="demo-badge" onclick="fillDemoCredentials('maria', '1111')">
+                            <strong>maria</strong> (1111)
                         </div>
                     </div>
                 </div>
+            </div>
+        </main>
 
-                <div class="actions-container">
-                    <button class="btn btn-secondary btn-back-menu">
-                        <i class="fa-solid fa-chevron-left"></i> Regresar al Menú
+        <!-- ==================== PANTALLA DE DASHBOARD ==================== -->
+        <main id="dashboard-screen" class="view">
+            <header class="dashboard-header glass">
+                <div class="header-left">
+                    <div class="dashboard-brand">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                            <line x1="2" y1="20" x2="22" y2="20"></line>
+                            <polyline points="2 10 12 2 22 10"></polyline>
+                        </svg>
+                        <span>Giga<span>Bank</span></span>
+                    </div>
+                    <div class="welcome-user">
+                        <h2 id="user-greeting">Hola, Usuario</h2>
+                        <p class="current-date" id="current-date">Martes, 23 de Junio de 2026</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button id="logout-btn" class="btn btn-secondary btn-icon-only" title="Cerrar Sesión">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
                     </button>
                 </div>
-            </section>
+            </header>
+
+            <div class="dashboard-content">
+                <!-- PANEL IZQUIERDO: Tarjeta y Acciones -->
+                <section class="left-panel">
+                    <!-- Tarjeta de Crédito Holográfica -->
+                    <div class="credit-card glass">
+                        <div class="card-glow"></div>
+                        <div class="card-header">
+                            <div class="chip"></div>
+                            <span class="card-brand-label">PREMIUM GOLD</span>
+                        </div>
+                        <div class="card-number">•••• •••• •••• 8824</div>
+                        <div class="card-balance-section">
+                            <div class="balance-meta">
+                                <span>SALDO DISPONIBLE</span>
+                                <button id="toggle-balance-visibility" class="toggle-balance-btn" title="Ocultar/Mostrar saldo">
+                                    <svg id="balance-eye-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3 id="balance-amount" class="balance-value">$0.00</h3>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-holder">
+                                <span class="label">TITULAR</span>
+                                <span id="card-holder-name" class="value">USUARIO</span>
+                            </div>
+                            <div class="card-expiry">
+                                <span class="label">VENCE</span>
+                                <span class="value">12/31</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción Rápida -->
+                    <div class="quick-actions">
+                        <h4 class="section-title">Operaciones Rápidas</h4>
+                        <div class="actions-grid">
+                            <button id="action-transfer-btn" class="action-card glass">
+                                <div class="action-icon action-icon-transfer">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="action-info">
+                                    <h5>Transferir</h5>
+                                    <p>A otras cuentas</p>
+                                </div>
+                            </button>
+
+                            <button id="action-deposit-btn" class="action-card glass">
+                                <div class="action-icon action-icon-deposit">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </div>
+                                <div class="action-info">
+                                    <h5>Ingresar</h5>
+                                    <p>Depositar dinero</p>
+                                </div>
+                            </button>
+
+                            <button id="action-withdraw-btn" class="action-card glass">
+                                <div class="action-icon action-icon-withdraw">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </div>
+                                <div class="action-info">
+                                    <h5>Retirar</h5>
+                                    <p>Retiro de efectivo</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL DERECHO: Historial de Transacciones -->
+                <section class="right-panel">
+                    <div class="history-card glass">
+                        <div class="history-header">
+                            <h4 class="section-title">Historial de Actividad</h4>
+                            <span class="badge" id="tx-count">0 txs</span>
+                        </div>
+                        
+                        <div class="history-list-wrapper">
+                            <ul id="history-list" class="history-list">
+                                <!-- Se llena dinámicamente -->
+                            </ul>
+                            
+                            <div id="history-empty-state" class="empty-state">
+                                <div class="empty-state-icon">
+                                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                </div>
+                                <h5>Sin transacciones recientes</h5>
+                                <p>Tus movimientos aparecerán reflejados aquí una vez comiences a operar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== MODAL DE TRANSFERENCIA ==================== -->
+    <div id="transfer-modal" class="modal-overlay">
+        <div class="modal-card glass">
+            <button class="modal-close-btn" id="transfer-close-x" aria-label="Cerrar modal">×</button>
+            <div class="modal-header">
+                <div class="modal-icon transfer-theme">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Nueva Transferencia</h3>
+                <p>Envía dinero de forma inmediata y sin comisiones.</p>
+            </div>
+
+            <form id="transfer-form" autocomplete="off" onsubmit="event.preventDefault();">
+                <div class="input-group">
+                    <label for="transfer-recipient">Nombre del destinatario o cuenta</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </span>
+                        <input type="text" id="transfer-recipient" required placeholder="Ej. juan, maria" autocomplete="off">
+                        <div id="transfer-recipient-status" class="recipient-validation-badge">
+                            <!-- Indicador dinámico de validación -->
+                        </div>
+                    </div>
+                    <small id="recipient-helper" class="input-helper">La cuenta destino debe estar registrada en GigaBank.</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="transfer-amount">Monto a transferir ($)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><strong>$</strong></span>
+                        <input type="number" id="transfer-amount" min="1" step="0.01" required placeholder="0.00">
+                    </div>
+                    <small class="input-helper">Saldo disponible: <span id="transfer-available-balance">$0.00</span></small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="transfer-cancel-btn" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" id="transfer-submit-btn" class="btn btn-primary">Realizar Transferencia</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- PREMIUM MODAL: TRANSFER CONFIRMATION -->
-    <div id="confirm-modal" class="modal-overlay d-none">
-        <div class="modal-card">
+    <!-- ==================== MODAL DE DEPOSITO ==================== -->
+    <div id="deposit-modal" class="modal-overlay">
+        <div class="modal-card glass">
+            <button class="modal-close-btn" id="deposit-close-x" aria-label="Cerrar modal">×</button>
             <div class="modal-header">
-                <i class="fa-solid fa-circle-question text-warning"></i>
-                <h2>Confirmar Transferencia</h2>
+                <div class="modal-icon deposit-theme">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Ingresar Dinero</h3>
+                <p>Añade fondos a tu cuenta de ahorros inmediatamente.</p>
             </div>
-            <div class="modal-body">
-                <p class="modal-intro">Por favor verifica los detalles de la transferencia antes de continuar. Esta acción debitará el saldo de tu cuenta inmediatamente.</p>
+
+            <form id="deposit-form" autocomplete="off" onsubmit="event.preventDefault();">
+                <div class="input-group">
+                    <label for="deposit-amount">Monto a ingresar ($)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><strong>$</strong></span>
+                        <input type="number" id="deposit-amount" min="1" step="0.01" required placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="deposit-cancel-btn" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" id="deposit-submit-btn" class="btn btn-primary deposit-theme-btn">Confirmar Depósito</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE RETIRO ==================== -->
+    <div id="withdraw-modal" class="modal-overlay">
+        <div class="modal-card glass">
+            <button class="modal-close-btn" id="withdraw-close-x" aria-label="Cerrar modal">×</button>
+            <div class="modal-header">
+                <div class="modal-icon withdraw-theme">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Retirar Dinero</h3>
+                <p>Retira efectivo de tu saldo disponible de manera segura.</p>
+            </div>
+
+            <form id="withdraw-form" autocomplete="off" onsubmit="event.preventDefault();">
+                <div class="input-group">
+                    <label for="withdraw-amount">Monto a retirar ($)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><strong>$</strong></span>
+                        <input type="number" id="withdraw-amount" min="1" step="0.01" required placeholder="0.00">
+                    </div>
+                    <small class="input-helper">Saldo disponible: <span id="withdraw-available-balance">$0.00</span></small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="withdraw-cancel-btn" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" id="withdraw-submit-btn" class="btn btn-primary withdraw-theme-btn">Confirmar Retiro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== COMPROBANTE/RECIBO MODAL ==================== -->
+    <div id="receipt-modal" class="modal-overlay">
+        <div class="modal-card receipt-card glass">
+            <div class="receipt-cutout-top"></div>
+            <div class="receipt-header">
+                <div class="receipt-success-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3>Transacción Exitosa</h3>
+                <p>Comprobante oficial de operación digital</p>
+            </div>
+
+            <div class="receipt-body">
+                <div class="receipt-main-val">
+                    <span class="currency">$</span>
+                    <span id="receipt-amount-val">0.00</span>
+                </div>
                 
-                <div class="confirmation-details">
-                    <div class="detail-row">
-                        <span class="detail-label">Destinatario:</span>
-                        <span class="detail-val" id="confirm-dest-name">-</span>
+                <div class="receipt-details">
+                    <div class="receipt-row">
+                        <span class="label">Operación:</span>
+                        <span class="val" id="receipt-op-type">Transferencia</span>
                     </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Nro. de Cuenta:</span>
-                        <span class="detail-val" id="confirm-dest-account">-</span>
+                    <div class="receipt-row">
+                        <span class="label">Fecha y Hora:</span>
+                        <span class="val" id="receipt-datetime">23/06/2026 18:04:12</span>
                     </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Banco Destino:</span>
-                        <span class="detail-val">Banco Antigravity (Mismo Banco)</span>
+                    <div class="receipt-row">
+                        <span class="label">ID Transacción:</span>
+                        <span class="val font-mono" id="receipt-id">TX-92847194</span>
                     </div>
-                    <hr>
-                    <div class="detail-row total-row">
-                        <span class="detail-label">Monto a Transferir:</span>
-                        <span class="detail-val amount" id="confirm-dest-amount">-$0</span>
+                    <hr class="receipt-divider">
+                    <div class="receipt-row">
+                        <span class="label">Origen:</span>
+                        <span class="val" id="receipt-sender-name">ana</span>
+                    </div>
+                    <div class="receipt-row" id="receipt-dest-row">
+                        <span class="label">Destinatario:</span>
+                        <span class="val" id="receipt-dest-name">juan</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="label">Estado:</span>
+                        <span class="val text-success">Procesada</span>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="btn-confirm-cancel" class="btn btn-secondary">Cancelar</button>
-                <button type="button" id="btn-confirm-approve" class="btn btn-primary btn-success-action">
-                    Confirmar Envío <i class="fa-solid fa-paper-plane"></i>
-                </button>
+
+            <div class="receipt-footer">
+                <button type="button" id="receipt-close-btn" class="btn btn-primary full-width">Aceptar y Continuar</button>
             </div>
+            <div class="receipt-cutout-bottom"></div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION CONTAINER -->
+    <!-- Container for dynamic toasts -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Main Application Logic -->
-    <script src="js/app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
